@@ -13,6 +13,7 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.client.http.FileContent;
+import java.io.BufferedReader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import javax.activation.MimetypesFileTypeMap;
 
 public class DriveQuickstart {
     private static final String APPLICATION_NAME = "Google Drive API Java Quickstart";
@@ -60,18 +62,31 @@ public class DriveQuickstart {
 
     public static void main(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
+
+       
+        System.out.println("Ingrese el nombre del archivo a subir(Debe estar en la carpeta raíz del proyecto)");
+        InputStreamReader isr=new InputStreamReader(System.in);
+        BufferedReader br=new BufferedReader(isr);
+        String archivo=br.readLine();
+  
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
         File fileMetadata = new File();
-fileMetadata.setName("gura.jpg");
-java.io.File filePath = new java.io.File("gura.jpg");
-FileContent mediaContent = new FileContent("image/jpeg", filePath);
+fileMetadata.setName(archivo);
+java.io.File filePath = new java.io.File(archivo);
+
+String extension=archivo.substring(archivo.lastIndexOf(".")+1);
+String tipo=new MimetypesFileTypeMap().getContentType(archivo);
+
+
+
+FileContent mediaContent = new FileContent(tipo, filePath);
 File file = service.files().create(fileMetadata, mediaContent)
     .setFields("id")
     .execute();
 System.out.println("File ID: " + file.getId());
-       
+System.out.println("Se ha subido el archivo");
     }
 }
