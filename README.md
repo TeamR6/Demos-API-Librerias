@@ -1,4 +1,4 @@
-Este repositorio incluye ejemplos de las siguientes APIs, librerías y ejemplos:
+Este repositorio incluye ejemplos de las siguientes APIs y librerías:
 
 <ol>
 <li>Apache POI: Librería para editar archivos de Microsoft Office. La demo en este repositorio permite leer el contenido de un archivo excel y agregar información en una posición especificada.</li>
